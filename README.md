@@ -1,7 +1,7 @@
 # Fukumaru Portfolio
 
 Go × GCP を軸にしたフリーランスエンジニア **Fukumaru** のポートフォリオサイトです。
-Next.js 14（App Router）+ Tailwind CSS を使用し、Vercel にデプロイ可能な構成になっています。
+Next.js（App Router）+ TypeScript + Tailwind CSS を使用し、Core Web Vitals と a11y を重視した構成です。
 
 ![og-image](./public/og-sample.png)
 
@@ -9,11 +9,12 @@ Next.js 14（App Router）+ Tailwind CSS を使用し、Vercel にデプロイ�
 
 ## 🚀 プロジェクト概要
 
-* **フロントエンド**: Next.js 14（App Router）
+* **フロントエンド**: Next.js（App Router）+ TypeScript
 * **スタイル**: Tailwind CSS（darkMode: 'class'）
-* **OG画像生成**: @vercel/og による動的OGP対応
-* **ホスティング**: Vercel
-* **フォーム**: Google Form / mailto（ダミー）
+* **UI/アイコン**: shadcn/ui（後日導入） / lucide-react
+* **OG画像生成**: `/api/og`（v1は next/og、後日 Satori + Resvg へ）
+* **内容管理**: `content/blog/*.mdx`, `content/works/*.mdx`（frontmatterベース）
+* **品質**: ESLint / Prettier / Stylelint / Vitest / Testing Library / Husky + lint-staged
 
 ---
 
@@ -26,7 +27,7 @@ Next.js 14（App Router）+ Tailwind CSS を使用し、Vercel にデプロイ�
 │  ├─ layout.tsx       # 共通レイアウト
 │  └─ page.tsx         # トップページ
 ├─ public/             # 画像・PDFなど静的ファイル
-├─ styles/             # グローバルCSS
+├─ app/globals.css     # グローバルCSS
 ├─ tailwind.config.ts  # Tailwind設定
 ├─ package.json        # 依存パッケージ
 └─ ...
@@ -36,7 +37,7 @@ Next.js 14（App Router）+ Tailwind CSS を使用し、Vercel にデプロイ�
 
 ## 🖼 OG画像自動生成
 
-`/api/og` エンドポイントで動的にOG画像を生成します。
+`/api/og` エンドポイントで動的にOG画像を生成します（v1は next/og を使用）。
 
 **例:**
 
@@ -52,18 +53,43 @@ Next.js 14（App Router）+ Tailwind CSS を使用し、Vercel にデプロイ�
 
 ---
 
-## 🛠 セットアップ手順
+## 🛠 セットアップ / 開発 / 品質チェック
 
 ```bash
-# 依存インストール
-npm install
+# 依存インストール（初回のみ）
+corepack enable && corepack prepare pnpm@latest --activate
+pnpm install
 
-# 開発サーバ起動
-npm run dev
+# 開発サーバ
+pnpm dev
+
+# Lint / TypeCheck / Test
+pnpm lint
+pnpm typecheck
+pnpm test
 
 # 本番ビルド
-npm run build
-npm start
+pnpm build && pnpm start
+```
+
+Gitフック（pre-commit）は `pnpm prepare` 実行時に有効化され、`lint-staged` で変更ファイルに ESLint/Prettier を適用します。
+
+## 🐳 デプロイ（Docker / Caddy, 後日追加）
+### ローカルでの起動（Caddyリバースプロキシ）
+```bash
+docker compose up -d --build
+```
+
+ブラウザで `https://your-domain.dev`（Caddyfileのドメインを適宜変更）
+
+### GitHub Actions でのCI/CD
+- `push`/`PR`で lint / typecheck / test / build を実行
+- `main`ブランチに対して Docker イメージを `ghcr.io/<user>/<repo>:latest` に push
+
+### Ugreen NAS での更新手順
+```bash
+docker compose pull
+docker compose up -d
 ```
 
 ---

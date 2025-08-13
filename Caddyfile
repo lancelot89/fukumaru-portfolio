@@ -1,0 +1,17 @@
+{
+  # ログレベル等のグローバル設定（必要に応じて変更）
+  email you@example.com
+}
+
+# ドメインは運用時に差し替え
+your-domain.dev {
+  encode gzip
+  @static {
+    path /_next/*
+    path /favicon.ico
+    path /robots.txt
+    path /sitemap.xml
+  }
+  reverse_proxy app:3000
+}
+

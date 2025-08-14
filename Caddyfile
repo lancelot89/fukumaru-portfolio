@@ -1,0 +1,17 @@
+{
+  # ログレベル等のグローバル設定（必要に応じて変更）
+  # ACME 用メールは環境変数 ACME_EMAIL を参照
+  email {$ACME_EMAIL}
+}
+
+# ドメインは環境変数 DOMAIN を参照
+{$DOMAIN} {
+  encode gzip
+  @static {
+    path /_next/*
+    path /favicon.ico
+    path /robots.txt
+    path /sitemap.xml
+  }
+  reverse_proxy app:3000
+}

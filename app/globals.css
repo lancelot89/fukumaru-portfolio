@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+
+/* a11y: スキップリンクがフォーカス時に表示されるように */
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  background: white;
+  color: black;
+  z-index: 50;
+}
+
+/* ベースのタイポグラフィ微調整 */
+html {
+  scroll-behavior: smooth;
+}
+/* bodyの色指定はレイアウトのclassNameで付与済み */

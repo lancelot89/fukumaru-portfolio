@@ -4,14 +4,16 @@ import { notFound } from 'next/navigation';
 import { MDXRenderer } from '@/components/mdx/MDXRenderer';
 import { getAllContent, getContentBySlug } from '@/lib/content';
 
-type Params = { params: { slug: string } };
+// Next.js 15 の PageProps に合わせ、params は Promise 互換
+type Params = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
   return getAllContent('works').map((w) => ({ slug: w.slug }));
 }
 
-export function generateMetadata({ params }: Params): Metadata {
-  const data = getContentBySlug('works', params.slug);
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params;
+  const data = getContentBySlug('works', slug);
   if (!data) return {};
   const ogImage = `/api/og?title=${encodeURIComponent(data.meta.title)}&tag=${encodeURIComponent('Works')}`;
   return {
@@ -24,8 +26,9 @@ export function generateMetadata({ params }: Params): Metadata {
   };
 }
 
-export default function WorkDetailPage({ params }: Params) {
-  const data = getContentBySlug('works', params.slug);
+export default async function WorkDetailPage({ params }: Params) {
+  const { slug } = await params;
+  const data = getContentBySlug('works', slug);
   if (!data) return notFound();
   const { meta, body } = data;
   return (

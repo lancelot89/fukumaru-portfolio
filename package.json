@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "serve": "node .next/standalone/server.js",
     "lint": "eslint .",
     "stylelint": "stylelint \"**/*.{css,scss}\" --ignore-path .gitignore",
     "typecheck": "tsc --noEmit",
@@ -39,6 +40,7 @@
     "shiki": "^3.9.2"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",

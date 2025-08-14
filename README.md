@@ -73,6 +73,20 @@ pnpm test
 
 # 本番ビルド
 pnpm build && pnpm start
+
+補足（standalone 出力時の起動）:
+- `next.config.mjs` で `output: 'standalone'` を使用しているため、`pnpm start` 警告が出る場合は以下で起動できます。
+
+```
+
+pnpm serve
+
+# or
+
+node .next/standalone/server.js
+
+```
+
 ```
 
 Gitフック（pre-commit）は `pnpm prepare` 実行時に有効化され、`lint-staged` で変更ファイルに ESLint/Prettier を適用します。
@@ -99,6 +113,18 @@ module.exports = {
 ```
 
 注: v16 以降で従来の整形系ルールは `@stylistic/stylelint-plugin` に分離されています。導入時は併用を検討してください。
+
+### Tailwind CSS v4 メモ
+
+- PostCSS プラグインは `tailwindcss` ではなく `@tailwindcss/postcss` を使用します（`postcss.config.cjs` を参照）。
+- グローバルCSSは `@tailwind base/components/utilities` ではなく `@import "tailwindcss";` を利用しています（`app/globals.css`）。
+- 既定の背景/文字色は `app/layout.tsx` の `<body>` に付与したクラスで制御しています。
+- 参考: Tailwind v4 では従来の一部設定/プラグインが変更されています。必要に応じて公式ドキュメントを参照してください。
+
+### Next.js 15 型メモ（App Router）
+
+- `generateMetadata` やページコンポーネントの `PageProps` において、`params` が Promise 互換の型になるケースがあります。
+- 本プロジェクトでは `[slug]` ページに合わせて `generateMetadata` を `async` 化し、`const { slug } = await params;` で扱っています。
 
 ## 🐳 デプロイ（Docker / Caddy, 後日追加）
 

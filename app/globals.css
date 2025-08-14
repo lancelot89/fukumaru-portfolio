@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
 /* a11y: スキップリンクがフォーカス時に表示されるように */
 .sr-only-focusable:focus {
@@ -15,6 +13,7 @@
 }
 
 /* ベースのタイポグラフィ微調整 */
-html { scroll-behavior: smooth; }
-body { @apply bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100; }
-
+html {
+  scroll-behavior: smooth;
+}
+/* bodyの色指定はレイアウトのclassNameで付与済み */

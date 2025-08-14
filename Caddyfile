@@ -1,10 +1,11 @@
 {
   # ログレベル等のグローバル設定（必要に応じて変更）
-  email you@example.com
+  # ACME 用メールは環境変数 ACME_EMAIL を参照
+  email {$ACME_EMAIL}
 }
 
-# ドメインは運用時に差し替え
-your-domain.dev {
+# ドメインは環境変数 DOMAIN を参照
+{$DOMAIN} {
   encode gzip
   @static {
     path /_next/*
@@ -14,4 +15,3 @@ your-domain.dev {
   }
   reverse_proxy app:3000
 }
-

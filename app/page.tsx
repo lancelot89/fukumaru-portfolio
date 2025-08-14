@@ -1,4 +1,7 @@
 import Link from 'next/link';
+
+import { buttonVariants } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getLatest } from '@/lib/content';
 
 export default function HomePage() {
@@ -16,10 +19,10 @@ export default function HomePage() {
           実績と技術ブログを通じて、問題解決力を発信します。
         </p>
         <div className="mt-6 flex gap-4 justify-center">
-          <Link href="/works" className="px-4 py-2 rounded bg-brand text-white hover:opacity-90">
+          <Link href="/works" className={buttonVariants({ variant: 'default' })}>
             実績を見る
           </Link>
-          <Link href="/contact" className="px-4 py-2 rounded border border-slate-300 dark:border-slate-700">
+          <Link href="/contact" className={buttonVariants({ variant: 'outline' })}>
             お問い合わせ
           </Link>
         </div>
@@ -28,15 +31,27 @@ export default function HomePage() {
       {/* 最新の実績 */}
       <section aria-labelledby="works-title" className="space-y-4">
         <div className="flex items-baseline justify-between">
-          <h2 id="works-title" className="text-2xl font-semibold">最新の実績</h2>
-          <Link className="text-brand hover:underline" href="/works">もっと見る</Link>
+          <h2 id="works-title" className="text-2xl font-semibold">
+            最新の実績
+          </h2>
+          <Link className="text-brand hover:underline" href="/works">
+            もっと見る
+          </Link>
         </div>
         <ul className="grid md:grid-cols-3 gap-4">
           {latestWorks.map((w) => (
-            <li key={w.slug} className="rounded border p-4">
-              <h3 className="font-medium">{w.title}</h3>
-              <p className="text-sm text-slate-500">{new Date(w.date).toLocaleDateString('ja-JP')}</p>
-              <p className="mt-1 text-sm line-clamp-2">{w.summary}</p>
+            <li key={w.slug}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>{w.title}</CardTitle>
+                  <p className="text-sm text-slate-500">
+                    {new Date(w.date).toLocaleDateString('ja-JP')}
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <p className="mt-1 text-sm line-clamp-2">{w.summary}</p>
+                </CardContent>
+              </Card>
             </li>
           ))}
         </ul>
@@ -45,15 +60,27 @@ export default function HomePage() {
       {/* 最新のブログ */}
       <section aria-labelledby="blog-title" className="space-y-4">
         <div className="flex items-baseline justify-between">
-          <h2 id="blog-title" className="text-2xl font-semibold">最新のブログ</h2>
-          <Link className="text-brand hover:underline" href="/blog">もっと見る</Link>
+          <h2 id="blog-title" className="text-2xl font-semibold">
+            最新のブログ
+          </h2>
+          <Link className="text-brand hover:underline" href="/blog">
+            もっと見る
+          </Link>
         </div>
         <ul className="grid md:grid-cols-3 gap-4">
           {latestPosts.map((p) => (
-            <li key={p.slug} className="rounded border p-4">
-              <h3 className="font-medium">{p.title}</h3>
-              <p className="text-sm text-slate-500">{new Date(p.date).toLocaleDateString('ja-JP')}</p>
-              <p className="mt-1 text-sm line-clamp-2">{p.summary}</p>
+            <li key={p.slug}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>{p.title}</CardTitle>
+                  <p className="text-sm text-slate-500">
+                    {new Date(p.date).toLocaleDateString('ja-JP')}
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <p className="mt-1 text-sm line-clamp-2">{p.summary}</p>
+                </CardContent>
+              </Card>
             </li>
           ))}
         </ul>
@@ -61,4 +88,3 @@ export default function HomePage() {
     </div>
   );
 }
-

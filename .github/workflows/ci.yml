@@ -31,6 +31,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Stylelint
+        run: pnpm stylelint
+
       - name: Typecheck
         run: pnpm typecheck
 
@@ -66,4 +69,3 @@ jobs:
           context: .
           push: true
           tags: ${{ env.IMAGE_NAME }}
-

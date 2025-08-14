@@ -1,7 +1,8 @@
-import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getAllContent, getContentBySlug } from '@/lib/content';
+import { notFound } from 'next/navigation';
+
 import { MDXRenderer } from '@/components/mdx/MDXRenderer';
+import { getAllContent, getContentBySlug } from '@/lib/content';
 
 type Params = { params: { slug: string } };
 
@@ -12,9 +13,14 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Params): Metadata {
   const data = getContentBySlug('works', params.slug);
   if (!data) return {};
+  const ogImage = `/api/og?title=${encodeURIComponent(data.meta.title)}&tag=${encodeURIComponent('Works')}`;
   return {
     title: data.meta.title,
-    description: data.meta.summary
+    description: data.meta.summary,
+    openGraph: {
+      images: [{ url: ogImage }],
+    },
+    twitter: { card: 'summary_large_image', images: [ogImage] },
   };
 }
 
@@ -34,4 +40,3 @@ export default function WorkDetailPage({ params }: Params) {
     </article>
   );
 }
-

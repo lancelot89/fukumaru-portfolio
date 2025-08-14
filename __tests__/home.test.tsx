@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+
 import { Header } from '@/components/site/Header';
 
 // ヘッダのランドマーク/ナビゲーションの簡易テスト
@@ -11,4 +12,3 @@ describe('Header', () => {
     expect(screen.getByRole('link', { name: 'ブログ' })).toBeInTheDocument();
   });
 });
-

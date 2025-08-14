@@ -1,6 +1,6 @@
+import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
-import matter from 'gray-matter';
 
 // MDXフロントマターの型
 export type ContentMeta = {
@@ -40,7 +40,7 @@ export function getAllContent(kind: 'blog' | 'works'): ContentItem[] {
       date: meta.date ?? '1970-01-01',
       tags: meta.tags ?? [],
       summary: meta.summary ?? '',
-      hero: meta.hero ?? ''
+      hero: meta.hero ?? '',
     } satisfies ContentItem;
   });
   return items.sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -50,7 +50,10 @@ export function getLatest(kind: 'blog' | 'works', limit = 3): ContentItem[] {
   return getAllContent(kind).slice(0, limit);
 }
 
-export function getContentBySlug(kind: 'blog' | 'works', slug: string): { meta: ContentItem; body: string } | null {
+export function getContentBySlug(
+  kind: 'blog' | 'works',
+  slug: string,
+): { meta: ContentItem; body: string } | null {
   const full = path.join(CONTENT_DIR, kind, `${slug}.mdx`);
   if (!fs.existsSync(full)) return null;
   const raw = fs.readFileSync(full, 'utf8');
@@ -62,8 +65,7 @@ export function getContentBySlug(kind: 'blog' | 'works', slug: string): { meta: 
     date: metaPartial.date ?? '1970-01-01',
     tags: metaPartial.tags ?? [],
     summary: metaPartial.summary ?? '',
-    hero: metaPartial.hero ?? ''
+    hero: metaPartial.hero ?? '',
   };
   return { meta, body: content };
 }
-

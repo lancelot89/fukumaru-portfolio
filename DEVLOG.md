@@ -145,3 +145,14 @@
 
 1. 本番ビルド確認（`pnpm build`）
 2. 必要に応じて README に robots.txt と a11yポリシーの注記を追記
+
+### 追記: テーマ/コントラスト調整（2025-08-14 追加）
+
+- 背景とコントラスト方針を明文化し実装を統一
+  - Light: 背景 `bg-white`、文字 `text-slate-900`、枠線 `border-slate-200`
+  - Dark: 背景 `bg-slate-950`、文字 `text-slate-100`、枠線 `border-slate-800`
+- 対応ファイル:
+  - `components/site/Header.tsx`/`Footer.tsx`: 背景/文字/枠線クラスを明示
+  - `components/ui/card.tsx`: カード本体とヘッダー/フッターの枠線・文字色を明示
+  - `components/blog/BlogList.tsx` / `components/works/WorkList.tsx`: 検索入力の枠線/文字/placeholder色を明示
+- 目的: ダークモード時の黒背景で枠線が見えづらい問題を解消し、a11y（コントラスト）を改善

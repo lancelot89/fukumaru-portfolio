@@ -5,7 +5,10 @@ import { ThemeToggle } from './ThemeToggle';
 
 export function Header({ siteName }: { siteName: string }) {
   return (
-    <header role="banner" className="border-b">
+    <header
+      role="banner"
+      className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100"
+    >
       <div className="container mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
         <Link href="/" className="font-semibold tracking-tight">
           {siteName}
